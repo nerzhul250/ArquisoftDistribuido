@@ -1,0 +1,80 @@
+Este proyecto está solamente soportado en sistemas operativos Linux, debido a la necesidad de un cliente de correo electrónico y de cargar dos librerias simultaneamente en la compilación de FraSCAti. También requiere un esquema de base de datos, que en la implementación actual está en Oracle.
+
+Aunque el proyecto está implementado en varios componentes SCA independientes y desplegables en cualquier máquina, en la configuración actual todos ellos están configurados para ser desplegados en la misma máquina (nodo de procesamiento).
+
+Requerimientos de funcionamiento:
+a. Oracle DBMS 
+Username:P09713_1_2	Pwd:CweDiY14     (el esquema, incluyendo las tablas, secuencias, etc., hay que recrearlos en Oracle, y luego pasarlos a PostgreSQL)
+
+sqlplus <usuario>@ESTUD
+
+ESTUD =
+  (DESCRIPTION_LIST=
+    (DESCRIPTION=
+      (ADDRESS=
+        (PROTOCOL=TCP)
+        (HOST=172.16.0.103)
+        (PORT=1522)
+      )
+      (CONNECT_DATA=
+        (SID=ESTUD)
+      )
+    )
+  )
+
+TABLAS:
+ALARMA_MAQUINA
+ASIGNACION_MAQUINA
+maquina
+alarma
+OPERADORES
+INGREDIENTE
+RECETA
+RECETA_INGREDIENTE
+
+
+egrep -r -i "select|insert|update|delete" --include "*.java" . > bdfiles1.txt 
+egrep -r -i "localhost" --include "*.composite" . > interfaces.txt
+find $1 -name "*.java" | xargs wc -l
+
+
+=============================
+NOTAS sobre la base de datos:
+Se implementó un Proxy de tipo cache (nodo adicional ProxyCacheObserver) debido a la necesidad de satisfacer diferentes máquinas de café sin saturar el servidor central con peticiones. El Proxy obtiene el listado de recetas del servidor central siempre que exista una actualización en la base de datos y luego notifica a sus máquinas de café asociadas para que estas puedan luego realizar la actualización de sus listados de recetas locales.
+
+=============================
+PATRONES DE DISEÑO
+En cuanto al patrón Observer se implementaron dos instancias. Desde la perspectiva del componente ProxyCacheObserver, el ServidorCentral es el sujeto observado. ProxyCacheObserver consume ServicioAttach del sistema central, con el fin de realizar la operación attach(). Por su parte SistemaCentral consume ServicioActualizacion de ProxyCacheObserver con el fin de realizar la operación update(). En esta se realiza la actualización de la lista de recetas local del proxy, lista a la que luego tendrán acceso todas las máquinas de café asociadas a ProxyCacheObserver.
+
+Desde la perspectiva del componente MaquinaDeCafe, ProxyCacheObserver se convierte en el sujeto observado. MaquinaDeCafe consume ServicioAttach de ProxyCacheObserver, con el fin de realizar la operación attach(). Por su parte ProxyCacheObserver consume ServicioActualizacion de MaquinaDeCafe  con el fin de realizar la operación update(). En esta se realiza la actualización de la lista de recetas de la máquina de cafe, así como el llamado a las operaciones de actualización tanto en la base de datos local, como en la interfaz gráfica de usuario.
+
+=============================
+Para montar el proyecto, se debe tener configurado FraSCAti y se deben seguir los siguientes pasos:
+
+1)Estando en src, compilar los proyectos: 	
+
+frascati compile ServidorCentral/src ServidorCentral
+frascati compile mc_proxy/src proxy
+frascati compile ClienteRecetas/src clienteRecCom
+frascati compile coffeemach/src coffeemach
+frascati compile cm_logistics/src logistics
+
+cp coffeemach/codMaquina.cafe .
+cp coffeemach/bd.cafe .
+
+cp ServidorCentral/ojdbc7.jar .
+cp ServidorCentral/javax.mail.jar .
+
+
+2) Correr los proyectos en el siguiente orden y con su respectivo archivo composite:
+
+frascati run comunicacionCom -libpath ServidorCentral.jar:javax.mail.jar:ojdbc7.jar
+
+frascati run mc_proxy -libpath proxy.jar -s r -m run
+
+frascati run clienteRecCom -libpath clienteRecCom.jar -s r -m run
+
+frascati run coffeemach -libpath coffeemach.jar -s r -m run
+	
+frascati run logistica -libpath logistics.jar -s r -m run
+
