@@ -2,6 +2,8 @@ package app;
 
 import org.osoa.sca.annotations.Init;
 
+import servicios.RotadorImagenes;
+
 public class RotadorImagenesImpl implements RotadorImagenes, Runnable{
 
 	private Pixel[] imagen;

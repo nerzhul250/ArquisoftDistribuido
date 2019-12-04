@@ -5,18 +5,18 @@
   <component name="c">
     <implementation.java class="coordinador.CoordinadorImpl"/>
     <service name="r">
-      <interface.java interface="coordinador.Coordinador" />
+      <interface.java interface="servicios.Coordinador" />
     </service>
     <reference name="rotadorImagenes">
-    	<interface.java interface="coordinador.RotadorImagenes" />
+    	 <interface.java interface="servicios.RotadorImagenes" />
     </reference>
   </component>
   <service name="r" promote="c/r">
-    <interface.java interface="coordinador.Coordinador"/>
+    <interface.java interface="servicios.Coordinador"/>
   </service>
-  
   <reference name="rotadorImagenes" promote="c/rotadorImagenes">
-  		<interface.java interface="coordinador.RotadorImagenes" />
-  		<frascati:binding.rmi host="localhost" serviceName="rmirotarimagen" port="1099"/>
+  	<frascati:binding.rmi host="localhost" serviceName="rmirotarimagen" port="1100"/>
+	 <interface.java interface="servicios.RotadorImagenes" />
   </reference>
+ 
 </composite>

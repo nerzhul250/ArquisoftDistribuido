@@ -1,5 +1,10 @@
-package coordinador;
+package servicios;
 
+import org.osoa.sca.annotations.Service;
+
+import coordinador.Pixel;
+
+@Service
 public interface RotadorImagenes {
 	public Pixel[] rotarImagen(Pixel[] imagen,double angulo,int midy,int midx);
 }

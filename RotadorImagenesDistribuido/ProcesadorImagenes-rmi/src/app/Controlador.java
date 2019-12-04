@@ -2,6 +2,8 @@ package app;
 
 import org.osoa.sca.annotations.Init;
 
+import servicios.RotadorImagenes;
+
 /**
  * Controlador
  */
@@ -34,6 +36,7 @@ public class Controlador implements RotadorImagenes{
 	// --------------------------------------------------------------------------
     @Override
     public Pixel[] rotarImagen(Pixel[] imagen, double angulo, int midy, int midx) {
+    	System.out.println("GOTHERE");
     	this.imagen = imagen;
     	int length = imagen.length;
     	int lastLimit = 0;
