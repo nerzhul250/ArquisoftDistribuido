@@ -54,7 +54,7 @@ public class Cargador {
 		{
 			for (double angles : anglesToRotate) {
 				File imageRoute=new File("./"+rutaImagenes+"/"+file);
-				File outImageRoute=new File("./"+outputImagenes+"/out"+file);
+				File outImageRoute=new File("./"+outputImagenes+"/out"+Math.round(angles)+file);
 				ImageInputStream stream = ImageIO.createImageInputStream(imageRoute); // File or input stream
 				Iterator<ImageReader> readers = ImageIO.getImageReaders(stream);
 				if (readers.hasNext()) {
@@ -62,8 +62,8 @@ public class Cargador {
 				    reader.setInput(stream);
 				    int height = reader.getHeight(0);
 				    int width  = reader.getWidth(0) ;
-				    double midH=height/2;
-				    double midW=width/2;
+				    int midH=height/2;
+				    int midW=width/2;
 				    int RectangleHeights=height/10;
 					BufferedImage imageOut = 
 				    new BufferedImage(width,height,BufferedImage.TYPE_4BYTE_ABGR);		
@@ -75,24 +75,18 @@ public class Cargador {
 				    	Pixel[] part=new Pixel[width*RectangleHeights];
 				    	for(int i=0;i<image.getHeight();i++) {
 				    		for(int j=0;j<image.getWidth();j++) {
-				    			Pixel p=new Pixel();
-				    			p.x=j;
-				    			p.y=height-y-i;
-				    			p.rgb=image.getRGB(j,i);
-				    			part[i*RectangleHeights+j]=p;
+				    			Pixel p=new Pixel(j,height-y-i,image.getRGB(j,i));
+				    			part[i*width+j]=p;
 				    		}
 				    	}
 				    	 part=coordinator.rotarImagen(part,angles,midH,midW);
-				    	
-				    	 Rectangle destinyRegion = new Rectangle(0,y,width,RectangleHeights); // The region you want to extract
-				    	 
-				    	 ImageIO.write(image,"TIFF",outImageRoute);
-				    	 
-				    	 System.out.println(file);
-	    	    		 File destiny=new File("./"+outputImagenes+"/"+file.split("\\.")[0]+""+y);
-				    	 ImageIO.write(image,"jpg",destiny);
+				    	 for (int i = 0; i < part.length; i++) {
+				    		 if(part[i]!=null)imageOut.setRGB(part[i].getX(),height-part[i].getY(),part[i].getRgb());
+						}
+				    	 	
 				    }
 				    
+				    ImageIO.write(imageOut,"jpg",outImageRoute);
 				}
 			}
 		}

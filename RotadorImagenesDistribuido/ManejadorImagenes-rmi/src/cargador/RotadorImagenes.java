@@ -1,5 +1,5 @@
 package cargador;
 
 public interface RotadorImagenes {
-	public Pixel[] rotarImagen(Pixel[] imagen,double angulo,double midy,double midx);
+	public Pixel[] rotarImagen(Pixel[] imagen,double angulo,int midy,int midx);
 }
