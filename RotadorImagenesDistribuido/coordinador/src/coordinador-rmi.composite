@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+  xmlns:frascati="http://frascati.ow2.org/xmlns/sca/1.1"
+  targetNamespace="http://frascati.ow2.org/helloworld-rmi"
+  name="CoordinadorRMI">
+
+
+  <service name="r" promote="coordinador/r">
+    <interface.java interface="java.lang.Runnable" />
+  </service>
+
+ <service name="coordinadorServices" promote="coordinador/coordinadorServices">
+      <interface.java interface="servicios.CoordinadorServices" />
+	<frascati:binding.rmi host="localhost" serviceName="rmicoordinadorservices" port="1099"/>
+  </service>
+  
+  <service name="coordinadorRotador" promote="coordinador/coordinadorRotador">
+      <interface.java interface="servicios.RotadorImagenes" />
+	<frascati:binding.rmi host="localhost" serviceName="rmiRotadorImagenes" port="1097"/>
+  </service>
+
+  <reference name="rotarImagen" promote="coordinador/rotarImagen">
+   	<interface.java interface="servicios.RotadorImagenes" />
+	<frascati:binding.rmi host="localhost" serviceName="rmirotarimagenes" port="1098"/>
+  </reference>
+
+  <component name="coordinador">
+ 
+    <service name="coordinadorServices">
+      <interface.java interface="servicios.CoordinadorServices" />
+    </service>
+    
+    <service name="coordinadorRotador">
+      <interface.java interface="servicios.RotadorImagenes" />
+    </service>
+
+  <service name="r">
+    <interface.java interface="java.lang.Runnable" />
+  </service>
+
+
+  <reference name="rotarImagen">
+   	<interface.java interface="servicios.RotadorImagenes" />
+  </reference>
+
+    <implementation.java class="central.Coordinador" />
+ 
+  </component>
+
+</composite>

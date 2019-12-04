@@ -2,7 +2,7 @@ package servicios;
 
 import org.osoa.sca.annotations.Service;
 
-import app.Pixel;
+import central.Pixel;
 
 @Service
 public interface RotadorImagenes {

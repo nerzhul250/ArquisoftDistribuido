@@ -1,4 +1,4 @@
-package cargador;
+package central;
 
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -24,20 +25,30 @@ import javax.imageio.stream.ImageOutputStream;
 import org.osoa.sca.annotations.Init;
 import org.osoa.sca.annotations.Reference;
 
-import com.sun.media.imageioimpl.plugins.tiff.TIFFImageWriter;
-import com.sun.media.imageioimpl.plugins.tiff.TIFFImageWriterSpi;
+import servicios.RotadorImagenes;
 
-public class Cargador {
+
+public class Cargador implements Runnable, Serializable {
 	
-	private static RotadorImagenes coordinator;
 	
-	@Reference
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5000L;
+	@Reference(name="coordinator")
+	private RotadorImagenes coordinator;
+	
+	
 	public void setCoordinatorService(RotadorImagenes coordinator) {
 		this.coordinator=coordinator;
 	}
-	
-	public static void main (String [] args) throws IOException {
-		BufferedReader br =new BufferedReader(new FileReader(new File("comandos.txt")));
+
+	@Override
+	public void run() {
+	try {
+		System.out.println("EXECUTING");
+		System.out.println(System.getProperty("user.dir"));
+		BufferedReader br =new BufferedReader(new FileReader(new File("./ManejadorImagenes-rmi/comandos.txt")));
 		String rutaImagenes=br.readLine().split("\\s+")[1];
 		String outputImagenes=br.readLine().split("\\s+")[1];
 		String line=br.readLine();
@@ -47,14 +58,14 @@ public class Cargador {
 			anglesToRotate.add(angle);
 			line=br.readLine();
 		}
-		File folder = new File("./"+rutaImagenes);
+		File folder = new File("./ManejadorImagenes-rmi/"+rutaImagenes);
 
 		String[] files = folder.list();
 		for (String file : files)
 		{
 			for (double angles : anglesToRotate) {
-				File imageRoute=new File("./"+rutaImagenes+"/"+file);
-				File outImageRoute=new File("./"+outputImagenes+"/out"+Math.round(angles)+file);
+				File imageRoute=new File("./ManejadorImagenes-rmi/"+rutaImagenes+"/"+file);
+				File outImageRoute=new File("./ManejadorImagenes-rmi/"+outputImagenes+"/out"+Math.round(angles)+file);
 				ImageInputStream stream = ImageIO.createImageInputStream(imageRoute); // File or input stream
 				Iterator<ImageReader> readers = ImageIO.getImageReaders(stream);
 				if (readers.hasNext()) {
@@ -66,7 +77,7 @@ public class Cargador {
 				    int midW=width/2;
 				    int RectangleHeights=height/10;
 					BufferedImage imageOut = 
-				    new BufferedImage(width,height,BufferedImage.TYPE_4BYTE_ABGR);		
+				    new BufferedImage(width,height,BufferedImage.TYPE_3BYTE_BGR);		
 				    for(int y=0;y<height;y+=RectangleHeights) {
 				    	Rectangle sourceRegion = new Rectangle(0,y,width,RectangleHeights); // The region you want to extract
 				    	ImageReadParam param = reader.getDefaultReadParam();
@@ -80,8 +91,12 @@ public class Cargador {
 				    		}
 				    	}
 				    	 part=coordinator.rotarImagen(part,angles,midH,midW);
+				    	 
 				    	 for (int i = 0; i < part.length; i++) {
-				    		 if(part[i]!=null)imageOut.setRGB(part[i].getX(),height-part[i].getY(),part[i].getRgb());
+				    		 if(part[i]!=null && part[i].getX()<width && part[i].getX()>=0
+				    				 && height-part[i].getY()<height &&height-part[i].getY()>=0) {
+				    			 imageOut.setRGB(part[i].getX(),height-part[i].getY(),part[i].getRgb());
+				    		 }
 						}
 				    	 	
 				    }
@@ -90,5 +105,8 @@ public class Cargador {
 				}
 			}
 		}
-    }
+	}catch(Exception e) {
+		e.printStackTrace();
+	}
+	}
 }

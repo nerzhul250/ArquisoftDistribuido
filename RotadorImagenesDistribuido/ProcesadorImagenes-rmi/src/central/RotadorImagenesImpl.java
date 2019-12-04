@@ -1,10 +1,14 @@
-package app;
+package central;
+
+import java.io.Serializable;
 
 import org.osoa.sca.annotations.Init;
 
 import servicios.RotadorImagenes;
 
-public class RotadorImagenesImpl implements RotadorImagenes, Runnable{
+public class RotadorImagenesImpl implements RotadorImagenes, Runnable,Serializable{
+	
+	private static final long serialVersionUID = 30L; 
 
 	private Pixel[] imagen;
 	private double angulo;

@@ -1,15 +1,22 @@
-package app;
+package central;
+
+import java.io.Serializable;
 
 import org.osoa.sca.annotations.Init;
+import org.osoa.sca.annotations.Scope;
 
 import servicios.RotadorImagenes;
 
 /**
  * Controlador
  */
-public class Controlador implements RotadorImagenes{
+@Scope("COMPOSITE")
+public class Controlador implements RotadorImagenes, Runnable,Serializable{
 
-	int components;
+	
+	private static final long serialVersionUID = 100L; 
+	
+	int components=4;
 	Pixel[] imagen;
 
 
@@ -44,6 +51,7 @@ public class Controlador implements RotadorImagenes{
         for (int i = 0; i < components; i++) {
         	int limR = length * ((i+1)/components);
         	int newLength = limR - lastLimit;
+        	System.out.println("i: " +i + " length: " + length + " last limit: " + lastLimit + " lim r: " + limR + "**********************************");
         	Pixel [] toPass = new Pixel [newLength];
         	for (int j = 0; j < newLength; j++) {
         		toPass[j] = imagen[j + lastLimit];
@@ -68,6 +76,12 @@ public class Controlador implements RotadorImagenes{
     public void setPosPixel (int i, Pixel pixel) {
     	imagen[i] = pixel;
     }
+
+	@Override
+	public void run() {
+		System.out.println("Runneo");
+		
+	}
 
     
 }

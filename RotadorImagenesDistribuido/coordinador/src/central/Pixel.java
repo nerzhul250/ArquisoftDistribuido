@@ -1,8 +1,15 @@
-package cargador;
+package central;
 
 import java.io.Serializable;
 
 public class Pixel implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 25L;
+	/**
+	 * 
+	 */
 	private int x,y;
 	private int rgb;
 	

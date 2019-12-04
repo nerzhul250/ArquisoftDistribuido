@@ -3,20 +3,28 @@
 <composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
   xmlns:frascati="http://frascati.ow2.org/xmlns/sca/1.1"
   targetNamespace="http://frascati.ow2.org/helloworld-rmi"
-  name="CoordinadorRMI">
+  name="ProcesadorRIM">
 
-  <service name="coordinadorServices" promote="coordinador/coordinadorServices">
-      <interface.java interface="servicios.CoordinadorServices" />
-      <frascati:binding.rmi host="localhost" serviceName="rmicoordinadorservices" port="1099"/>
+  <service name="r" promote="procesador/r">
+    <interface.java interface="java.lang.Runnable" />
   </service>
 
-  <component name="coordinador">
+  <service name="rotarImagen" promote="procesador/rotarImagen">
+   	<interface.java interface="servicios.RotadorImagenes" />
+	<frascati:binding.rmi host="localhost" serviceName="rmirotarimagenes" port="1098"/>
+  </service>
+
+  <component name="procesador">
  
-    <service name="coordinadorServices">
-      <interface.java interface="servicios.CoordinadorServices" />
+    <service name="r">
+      <interface.java interface="java.lang.Runnable" />
     </service>
- 
-    <implementation.java class="coordinador.Coordinador" />
+
+ <service name="rotarImagen">
+    <interface.java interface="servicios.RotadorImagenes" />
+  </service>
+
+    <implementation.java class="central.Controlador" />
  
   </component>
 
