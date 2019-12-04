@@ -1,0 +1,7 @@
+i imagenes
+o procesadas
+r 45
+r 90
+r 180
+r 360
+r 50
