@@ -21,8 +21,15 @@ public class Coordinador implements CoordinadorServices, Serializable, Runnable,
 	@Reference(name="rotarImagen")
 	private RotadorImagenes rotadorImagenes;
 	
+	@Reference(name="rotarImagen2")
+	private RotadorImagenes rotadorImagenes2;
+	
 	public void setRotadorImagenes (RotadorImagenes rotadorImagenes) {
 		this.rotadorImagenes = rotadorImagenes;
+	}
+	
+	public void setRotadorImagenes2 (RotadorImagenes rotadorImagenes2) {
+		this.rotadorImagenes2 = rotadorImagenes2;
 	}
 	
 	
@@ -57,8 +64,8 @@ public class Coordinador implements CoordinadorServices, Serializable, Runnable,
 
 	@Override
 	public void run() {
-		System.out.println(rotadorImagenes != null);
-		notificarDisponible();
+//		System.out.println(rotadorImagenes != null);
+//		notificarDisponible();
 		
 	}
 
@@ -66,7 +73,26 @@ public class Coordinador implements CoordinadorServices, Serializable, Runnable,
 
 	@Override
 	public Pixel[] rotarImagen(Pixel[] imagen, double angulo, int midy, int midx) {
-		return rotadorImagenes.rotarImagen(imagen, angulo, midy, midx);
+		int mid = imagen.length / 2;
+		Pixel [] mid1 = new Pixel [mid];
+		int length2 = imagen.length - (mid);
+		Pixel [] mid2 = new Pixel [length2];
+		for (int i = 0; i < Math.max(mid, length2); i++) {
+			if (i < mid) 
+				mid1[i] = imagen[i];
+			if (i < length2)
+				mid2[i] = imagen [mid + i];
+		}
+		
+		mid1 = rotadorImagenes.rotarImagen(mid1, angulo, midy, midx);
+		mid2 = rotadorImagenes2.rotarImagen(mid2, angulo, midy, midx);
+		for (int i = 0; i < mid1.length; i++)
+			imagen[i] = mid1[i];
+		
+		for (int i = 0; i < mid2.length; i++) {
+			imagen[mid + i] = mid2[i];
+		}
+		return imagen;
 	}
 
 }

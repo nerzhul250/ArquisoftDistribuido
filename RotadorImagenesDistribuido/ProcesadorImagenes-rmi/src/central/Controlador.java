@@ -43,15 +43,13 @@ public class Controlador implements RotadorImagenes, Runnable,Serializable{
 	// --------------------------------------------------------------------------
     @Override
     public Pixel[] rotarImagen(Pixel[] imagen, double angulo, int midy, int midx) {
-    	System.out.println("GOTHERE");
     	this.imagen = imagen;
     	int length = imagen.length;
     	int lastLimit = 0;
     	Thread [] threads = new Thread [components];
         for (int i = 0; i < components; i++) {
-        	int limR = length * ((i+1)/components);
+        	int limR = (int) (length * ((i+1)/(double)components));
         	int newLength = limR - lastLimit;
-        	System.out.println("i: " +i + " length: " + length + " last limit: " + lastLimit + " lim r: " + limR + "**********************************");
         	Pixel [] toPass = new Pixel [newLength];
         	for (int j = 0; j < newLength; j++) {
         		toPass[j] = imagen[j + lastLimit];

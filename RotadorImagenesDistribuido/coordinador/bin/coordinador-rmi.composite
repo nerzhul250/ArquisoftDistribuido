@@ -25,6 +25,11 @@
 	<frascati:binding.rmi host="localhost" serviceName="rmirotarimagenes" port="1098"/>
   </reference>
 
+<reference name="rotarImagen2" promote="coordinador/rotarImagen2">
+   	<interface.java interface="servicios.RotadorImagenes" />
+	<frascati:binding.rmi host="localhost" serviceName="rmirotarimagenes" port="1098"/>
+  </reference>
+
   <component name="coordinador">
  
     <service name="coordinadorServices">
@@ -41,6 +46,10 @@
 
 
   <reference name="rotarImagen">
+   	<interface.java interface="servicios.RotadorImagenes" />
+  </reference>
+
+  <reference name="rotarImagen2">
    	<interface.java interface="servicios.RotadorImagenes" />
   </reference>
 
