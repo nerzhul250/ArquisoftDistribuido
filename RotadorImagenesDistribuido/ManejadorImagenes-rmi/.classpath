@@ -12,5 +12,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/Users/asus/Documents/GitHub/ArquisoftDistribuido/RotadorImagenesDistribuido/ManejadorImagenes-rmi/org.eclipse.stp.sca.osoa_1.0.0.201205240725.jar"/>
+	<classpathentry kind="lib" path="C:/Users/asus/Documents/GitHub/ArquisoftDistribuido/RotadorImagenesDistribuido/ManejadorImagenes-rmi/jai_imageio-1.1.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
