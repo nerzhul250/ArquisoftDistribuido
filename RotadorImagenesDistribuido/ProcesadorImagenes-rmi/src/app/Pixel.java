@@ -1,4 +1,4 @@
-package cargador;
+package app;
 
 import java.io.Serializable;
 
@@ -22,5 +22,13 @@ public class Pixel implements Serializable {
 	
 	public int getRgb() {
 		return rgb;
+	}
+	
+	public void setX (int x) {
+		this.x = x;
+	}
+	
+	public void setY (int y) {
+		this.y = y;
 	}
 }
