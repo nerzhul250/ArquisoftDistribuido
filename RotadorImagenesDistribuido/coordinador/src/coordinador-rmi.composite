@@ -25,10 +25,30 @@
 	<frascati:binding.rmi host="localhost" serviceName="rmirotarimagenes" port="1098"/>
   </reference>
 
-<!-- <reference name="rotarImagen2" promote="coordinador/rotarImagen2">
+  <reference name="rotarImagen2" promote="coordinador/rotarImagen2">
+   	<interface.java interface="servicios.RotadorImagenes" />
+	<frascati:binding.rmi host="localhost" serviceName="rmirotarimagenes" port="1096"/>
+  </reference> 
+
+  <reference name="rotarImagen3" promote="coordinador/rotarImagen3">
    	<interface.java interface="servicios.RotadorImagenes" />
 	<frascati:binding.rmi host="localhost" serviceName="rmirotarimagenes" port="1098"/>
-  </reference> -->
+  </reference> 
+
+  <reference name="rotarImagen4" promote="coordinador/rotarImagen4">
+   	<interface.java interface="servicios.RotadorImagenes" />
+	<frascati:binding.rmi host="localhost" serviceName="rmirotarimagenes" port="1098"/>
+  </reference> 
+
+  <reference name="rotarImagen5" promote="coordinador/rotarImagen5">
+   	<interface.java interface="servicios.RotadorImagenes" />
+	<frascati:binding.rmi host="localhost" serviceName="rmirotarimagenes" port="1098"/>
+  </reference> 
+
+  <reference name="rotarImagen6" promote="coordinador/rotarImagen6">
+   	<interface.java interface="servicios.RotadorImagenes" />
+	<frascati:binding.rmi host="localhost" serviceName="rmirotarimagenes" port="1098"/>
+  </reference> 
 
   <component name="coordinador">
  
@@ -49,9 +69,26 @@
    	<interface.java interface="servicios.RotadorImagenes" />
   </reference>
 
- <!-- <reference name="rotarImagen2">
+  <reference name="rotarImagen2">
    	<interface.java interface="servicios.RotadorImagenes" />
-  </reference> -->
+  </reference>
+
+  <reference name="rotarImagen3">
+   	<interface.java interface="servicios.RotadorImagenes" />
+  </reference>
+  
+  <reference name="rotarImagen4">
+   	<interface.java interface="servicios.RotadorImagenes" />
+  </reference>
+  
+  <reference name="rotarImagen5">
+   	<interface.java interface="servicios.RotadorImagenes" />
+  </reference>
+  
+  <reference name="rotarImagen6">
+   	<interface.java interface="servicios.RotadorImagenes" />
+  </reference>
+  
 
     <implementation.java class="central.Coordinador" />
  

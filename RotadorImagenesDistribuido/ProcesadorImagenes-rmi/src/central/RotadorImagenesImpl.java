@@ -49,7 +49,6 @@ public class RotadorImagenesImpl implements RotadorImagenes, Runnable,Serializab
 		for (int i = 0; i < imagen.length; i++) {
 			Pixel act = imagen[i];
 			if (act != null) {
-				//System.out.println("ASDADSASDASDAS");
 				int x = act.getX();
 				int y = act.getY();
 				

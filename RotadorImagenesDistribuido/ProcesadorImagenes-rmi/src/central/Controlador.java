@@ -16,7 +16,7 @@ public class Controlador implements RotadorImagenes, Runnable,Serializable{
 	
 	private static final long serialVersionUID = 100L; 
 	
-	int components=1;
+	private final static int COMPONENTS=1;
 	Pixel[] imagen;
 
 
@@ -34,9 +34,9 @@ public class Controlador implements RotadorImagenes, Runnable,Serializable{
     }
 
 
-    public void setComponents (int components) {
-    	this.components = components;
-    }
+//    public void setComponents (int components) {
+//    	this.components = components;
+//    }
     
     // --------------------------------------------------------------------------
 	// Implementation of the RotadorImagenes interface
@@ -46,9 +46,9 @@ public class Controlador implements RotadorImagenes, Runnable,Serializable{
     	this.imagen = imagen;
     	int length = imagen.length;
     	int lastLimit = 0;
-    	Thread [] threads = new Thread [components];
-        for (int i = 0; i < components; i++) {
-        	int limR = (int) (length * ((i+1)/(double)components));
+    	Thread [] threads = new Thread [COMPONENTS];
+        for (int i = 0; i < COMPONENTS; i++) {
+        	int limR = (int) (length * ((i+1)/(double)COMPONENTS));
         	int newLength = limR - lastLimit;
         	Pixel [] toPass = new Pixel [newLength];
         	for (int j = 0; j < newLength; j++) {
