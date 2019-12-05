@@ -102,7 +102,9 @@ public class Cargador implements Runnable, Serializable {
 				    }
 				    
 				    ImageIO.write(imageOut,"jpg",outImageRoute);
+				    imageOut.flush();
 				}
+				stream.close();
 			}
 		}
 	}catch(Exception e) {

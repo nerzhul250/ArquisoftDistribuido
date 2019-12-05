@@ -7,5 +7,6 @@
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="/home/swarch/ArquisoftDistribuido/RotadorImagenesDistribuido/ManejadorImagenes-rmi/org.eclipse.stp.sca.osoa_1.0.0.201205240725.jar"/>
+	<classpathentry kind="lib" path="D:/ArquisoftDistribuido/RotadorImagenesDistribuido/ManejadorImagenes-rmi/org.eclipse.stp.sca.osoa_1.0.0.201205240725.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

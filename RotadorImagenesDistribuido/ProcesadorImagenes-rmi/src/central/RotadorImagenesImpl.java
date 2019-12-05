@@ -48,17 +48,20 @@ public class RotadorImagenesImpl implements RotadorImagenes, Runnable,Serializab
 		
 		for (int i = 0; i < imagen.length; i++) {
 			Pixel act = imagen[i];
-			int x = act.getX();
-			int y = act.getY();
-			
-			int cX = x - midx;
-			int cY = y - midy;
-			
-			int x1 = (int) Math.round(cX * rotateMatrix[0][0] + cY * rotateMatrix[0][1]) + midx;
-			int y1 = (int) Math.round(cX * rotateMatrix[1][0] + cY * rotateMatrix[1][1]) + midy;
-			
-			act.setX(x1);
-			act.setY(y1);
+			if (act != null) {
+				//System.out.println("ASDADSASDASDAS");
+				int x = act.getX();
+				int y = act.getY();
+				
+				int cX = x - midx;
+				int cY = y - midy;
+				
+				int x1 = (int) Math.round(cX * rotateMatrix[0][0] + cY * rotateMatrix[0][1]) + midx;
+				int y1 = (int) Math.round(cX * rotateMatrix[1][0] + cY * rotateMatrix[1][1]) + midy;
+				
+				act.setX(x1);
+				act.setY(y1);				
+			}
 		}
 		
 		return imagen;

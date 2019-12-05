@@ -16,7 +16,7 @@ public class Controlador implements RotadorImagenes, Runnable,Serializable{
 	
 	private static final long serialVersionUID = 100L; 
 	
-	int components=4;
+	int components=1;
 	Pixel[] imagen;
 
 
