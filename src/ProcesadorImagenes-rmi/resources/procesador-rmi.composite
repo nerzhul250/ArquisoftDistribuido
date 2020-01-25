@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+  xmlns:frascati="http://frascati.ow2.org/xmlns/sca/1.1"
+  targetNamespace="http://frascati.ow2.org/helloworld-rmi"
+  name="ProcesadorRIM">
+
+  <service name="r" promote="procesador/r">
+    <interface.java interface="java.lang.Runnable" />
+  </service>
+
+  <service name="rotarImagen" promote="procesador/rotarImagen">
+   	<interface.java interface="servicios.RotadorImagenes" />
+	<frascati:binding.rmi host="localhost" serviceName="rmirotarimagenes" port="1098"/>
+  </service>
+
+  <component name="procesador">
+ 
+    <service name="r">
+      <interface.java interface="java.lang.Runnable" />
+    </service>
+
+ <service name="rotarImagen">
+    <interface.java interface="servicios.RotadorImagenes" />
+  </service>
+
+    <implementation.java class="central.Controlador" />
+ 
+  </component>
+
+</composite>

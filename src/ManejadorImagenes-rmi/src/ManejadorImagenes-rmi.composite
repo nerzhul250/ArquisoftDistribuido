@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+  xmlns:frascati="http://frascati.ow2.org/xmlns/sca/1.1"
+  targetNamespace="http://frascati.ow2.org/arquisoft-distribuido-rmi"
+  name="ManejadorImagenesRMI">
+
+
+  <service name="r" promote="ManejadorImagenes/r">
+    <interface.java interface="java.lang.Runnable" />
+  </service>
+  
+  <reference name="coordinator" promote="ManejadorImagenes/coordinator">
+      <interface.java interface="servicios.RotadorImagenes" />
+      <frascati:binding.rmi host="localhost" serviceName="rmiRotadorImagenes" port="1097"/>
+  </reference>
+
+  <component name="ManejadorImagenes">
+
+    <reference name="coordinator">
+      <interface.java interface="servicios.RotadorImagenes" />
+    </reference>
+    
+    <service name="r">
+    	<interface.java interface="java.lang.Runnable" />
+ 	 </service>
+
+    <implementation.java class="central.Cargador" />
+
+  </component>
+
+</composite>
